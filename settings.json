@@ -1,0 +1,8 @@
+{
+    "sqlConfig": {
+        "host": "vincent-fe.bgeso-pedagogique.fr",
+        "user": "bgeso31_vincent-fe_dbu",
+        "password": "VinFer31!!",
+        "database": "bgeso31_vincent-fe_db"
+    }
+}
