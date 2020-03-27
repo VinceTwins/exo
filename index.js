@@ -107,7 +107,7 @@ app.route("/api/comments/delete")
         const sqlConnection = mysql.createConnection(sqlConfig);
         sqlConnection.query(
             "DELETE FROM node_comments WHERE id = ?",
-            [req.body.commentsId],
+            [req.body.commentId],
             (error, result) => {
                 if (error) {
                     console.log("ERREUR :", error.code);
