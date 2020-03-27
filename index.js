@@ -15,12 +15,12 @@ app.use(express.urlencoded({extended: true}));
 app.get("/api/articles", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
     sqlConnection.query(
-        "SELECT id, title, content, author, created_at FROM node_articles WHERE id = 1 LIMIT 5",
+        "SELECT id, title, content, author, created_at FROM node_articles ORDER BY id DESC LIMIT 5",
         (error, result) => {
             if (error) {
                 console.log("ERROR :", error.code);
             } else {
-                res.send(result[0]);
+                res.send(result);
             }
             sqlConnection.end();
         }
@@ -30,12 +30,12 @@ app.get("/api/articles", (req, res) => {
 app.get("/api/comments", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
     sqlConnection.query(
-        "SELECT id, article_id, content, author, created_at FROM node_comments WHERE id = 1 LIMIT 1",
+        "SELECT id, article_id, author, content, created_at FROM node_comments ORDER BY id DESC LIMIT 5",
         (error, result) => {
             if (error) {
                 console.log("ERROR :", error.code);
             } else {
-                res.send(result[0]);
+                res.send(result);
             }
             sqlConnection.end();
         }
@@ -63,7 +63,7 @@ app.route("/api/articles/create")
     });
 
 app.route("/api/articles/delete")
-    .get((req, res) => res.status(503).send({ status: "ERREUR" }))
+    .get((req, res) => res.status(503).send({ status: "ERROR" }))
     .post((req, res) => {
         const sqlConnection = mysql.createConnection(sqlConfig);
         sqlConnection.query(
@@ -71,8 +71,8 @@ app.route("/api/articles/delete")
             [req.body.articleId],
             (error, result) => {
                 if (error) {
-                    console.log("ERREUR :", error.code);
-                    res.status(503).send({ status: "ERREUR" });
+                    console.log("ERROR :", error.code);
+                    res.status(503).send({ status: "ERROR" });
                 } else {
                     console.log(result);
                     res.send({ status: "OK" });
@@ -82,7 +82,7 @@ app.route("/api/articles/delete")
     });
 
 app.route("/api/comments/create")
-    .get((req, res) => res.status(503).send({ status: "ERREUR" }))
+    .get((req, res) => res.status(503).send({ status: "ERROR" }))
     .post((req, res) => {
         console.log(req.body);
         const sqlConnection = mysql.createConnection(sqlConfig);
@@ -91,8 +91,8 @@ app.route("/api/comments/create")
             [req.body.article_id, req.body.author, req.body.content, req.body.created_at],
             (error, result) => {
                 if (error) {
-                    console.log("ERREUR :", error.code);
-                    res.status(503).send({ status: "ERREUR" });
+                    console.log("ERROR :", error.code);
+                    res.status(503).send({ status: "ERROR" });
                 } else {
                     console.log(result);
                     res.send({ status: "OK" });
@@ -102,7 +102,7 @@ app.route("/api/comments/create")
     });
 
 app.route("/api/comments/delete")
-    .get((req, res) => res.status(503).send({ status: "ERREUR" }))
+    .get((req, res) => res.status(503).send({ status: "ERROR" }))
     .post((req, res) => {
         const sqlConnection = mysql.createConnection(sqlConfig);
         sqlConnection.query(
@@ -110,8 +110,8 @@ app.route("/api/comments/delete")
             [req.body.commentID],
             (error, result) => {
                 if (error) {
-                    console.log("ERREUR :", error.code);
-                    res.status(503).send({ status: "ERREUR" });
+                    console.log("ERROR :", error.code);
+                    res.status(503).send({ status: "ERROR" });
                 } else {
                     console.log(result);
                     res.send({ status: "OK" });
